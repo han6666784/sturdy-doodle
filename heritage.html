@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>非遗技艺 · 火宫殿数字馆</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; min-height: 100vh; }
+        body { background-color: #1a1512; font-family: 'Noto Serif SC', serif; color: #2e241e; line-height: 1.6; }
+        .scroll-container {
+            width: 100%; min-height: 100vh; background: #fbf3e8;
+            border-left: 16px solid #7a4a2e; border-right: 16px solid #7a4a2e;
+        }
+        .top-ornament, .bottom-ornament { height: 14px; background: linear-gradient(90deg, #b87c4b, #e6c8a6, #b87c4b); }
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 50px; background: rgba(122,74,46,0.97);
+            color: #f7efe4; position: sticky; top: 0; z-index: 100;
+            border-bottom: 3px solid #e6c8a6; box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+            flex-wrap: wrap; gap: 15px;
+        }
+        .logo h1 { font-family: 'ZCOOL XiaoWei', serif; font-size: 2.4rem; letter-spacing: 8px; color: #ffd99b; text-shadow: 4px 4px 0 #4a2c1a; }
+        .logo span { font-size: 0.8rem; letter-spacing: 3px; color: #e0c7a8; display: block; font-weight: 300; }
+        .nav-links { display: flex; gap: 30px; flex-wrap: wrap; }
+        .nav-links a {
+            color: #f0ddc5; text-decoration: none; font-weight: 600; font-size: 1.05rem;
+            padding: 8px 0; border-bottom: 3px solid transparent; transition: all 0.25s ease; letter-spacing: 1px;
+        }
+        .nav-links a:hover, .nav-links a.active { border-bottom-color: #ffb882; color: #ffe6c7; transform: translateY(-2px); }
+        .page-header {
+            padding: 50px 60px 35px; background: linear-gradient(135deg, #2b1d12 0%, #4e3322 100%);
+            color: #f5e6d3; display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 20px;
+        }
+        .page-header h2 { font-family: 'ZCOOL XiaoWei', serif; font-size: 3rem; color: #ffcf8f; text-shadow: 3px 3px 0 #3a2416; letter-spacing: 4px; }
+        .page-header p { color: #e3d0bb; font-size: 1.05rem; margin-top: 8px; }
+        .back-home {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #ffb37a; color: #2b1d12; padding: 12px 28px; border-radius: 40px;
+            text-decoration: none; font-weight: 700; transition: 0.2s; white-space: nowrap;
+        }
+        .back-home:hover { background: #ffcf8f; transform: scale(1.03); }
+        .section { padding: 60px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 35px; }
+        .heritage-card {
+            background: #fff9f2; border-radius: 24px; padding: 40px 32px;
+            box-shadow: 0 12px 24px rgba(90,60,40,0.18); border: 1px solid #e3c9b0;
+            transition: all 0.3s ease; display: flex; flex-direction: column;
+        }
+        .heritage-card:hover { transform: translateY(-8px); box-shadow: 0 24px 36px rgba(120,70,30,0.3); border-color: #b87c4b; }
+        .heritage-card .card-top { display: flex; align-items: center; gap: 20px; margin-bottom: 20px; }
+        .heritage-card i { font-size: 3.2rem; color: #b87c4b; }
+        .heritage-card h3 { font-size: 1.9rem; color: #5a3420; font-family: 'ZCOOL XiaoWei', serif; }
+        .heritage-card p { font-size: 1.02rem; color: #6b4f3a; line-height: 1.8; margin-bottom: 20px; flex: 1; }
+        .card-tag {
+            display: inline-block; background: #dbbd9c; color: #3a2416; padding: 5px 18px;
+            border-radius: 30px; font-size: 0.8rem; font-weight: 600; margin-right: 10px; margin-bottom: 10px;
+        }
+        .detail-toggle {
+            display: inline-flex; align-items: center; gap: 6px; margin-top: 8px;
+            color: #b87c4b; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+            text-decoration: underline; text-underline-offset: 4px; border: none; background: none;
+            font-family: 'Noto Serif SC', serif;
+        }
+        .detail-toggle:hover { color: #8b5a2b; }
+        .detail-box {
+            margin-top: 18px; background: #fdf1e3; border-left: 6px solid #b87c4b;
+            padding: 18px 22px; border-radius: 0 12px 12px 0; font-size: 0.95rem;
+            color: #5a3f2c; line-height: 1.9; display: none;
+        }
+        .detail-box.open { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+        .footer { background: #2b1d12; color: #bda78e; text-align: center; padding: 45px 30px; font-size: 0.95rem; border-top: 8px solid #b87c4b; }
+        .footer i { color: #b87c4b; margin: 0 6px; }
+        @media (max-width: 900px) {
+            .navbar { flex-direction: column; padding: 15px 20px; }
+            .section, .page-header { padding: 40px 25px; }
+            .page-header h2 { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="top-ornament"></div>
+        <nav class="navbar">
+            <div class="logo"><h1>火宫殿</h1><span>HUO GONG DIAN · 1577</span></div>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="heritage.html" class="active">非遗技艺</a>
+                <a href="tofu.html">臭豆腐工坊</a>
+                <a href="opera.html">庙会戏台</a>
+                <a href="snacks.html">小吃游戏</a>
+            </div>
+        </nav>
+
+        <div class="page-header">
+            <div>
+                <h2><i class="fas fa-mask"></i> 非遗瑰宝 · 活态传承</h2>
+                <p>以下内容整理自中国非物质文化遗产网等官方公开资料，点击"展开详情"查看</p>
+            </div>
+            <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+
+        <section class="section">
+            <div class="cards-grid">
+                <div class="heritage-card">
+                    <div class="card-top"><i class="fas fa-drum"></i><h3>火宫殿庙会</h3></div>
+                    <p>源于上古火崇拜，融宗教、民俗、饮食、消防于一体的多元文化载体。每年腊月二十三至正月十五，火宫殿举行盛大庙会，祭火神、演戏曲、品小吃。</p>
+                    <div><span class="card-tag">国家级非遗</span><span class="card-tag">2008年入选</span></div>
+                    <button class="detail-toggle" onclick="toggleDetail('d1', this)">📖 展开官方介绍详情 <i class="fas fa-chevron-down"></i></button>
+                    <div class="detail-box" id="d1">
+                        <strong>项目名称：</strong>庙会（火宫殿庙会）<br>
+                        <strong>项目编号：</strong>Ⅹ-84<br>
+                        <strong>公布时间：</strong>2008年（第二批国家级非物质文化遗产代表性项目名录）<br>
+                        <strong>保护单位：</strong>长沙火宫殿有限公司<br><br>
+                        <strong>历史渊源：</strong>火宫殿庙会起源于明万历五年（1577年）火神庙的祭祀活动。旧时长沙百姓在火神诞辰（农历六月二十三）及腊月、正月期间，到火宫殿祭拜火神、看戏、品尝小吃，逐渐形成集祭祀、戏曲、饮食、商贸于一体的庙会习俗。<br><br>
+                        <strong>主要内容：</strong>① 祭祀火神仪式；② 湘剧、长沙弹词、评书等戏曲曲艺演出；③ 臭豆腐、姊妹团子等湘风小吃展销；④ 转糖、捏面人、剪纸等民间手工艺展示；⑤ 舞龙舞狮、苗鼓傩戏等民俗表演。
+                    </div>
+                </div>
+
+                <div class="heritage-card">
+                    <div class="card-top"><i class="fas fa-mortar-pestle"></i><h3>臭豆腐制作技艺</h3></div>
+                    <p>百年姜氏祖传秘方，卤水需持续发酵两年以上。以香菇、鲜冬笋、浏阳豆豉、曲酒等二十多种原料制卤，白豆腐入卤浸泡后茶油炸制，外焦里嫩、闻臭品香。</p>
+                    <div><span class="card-tag">国家级非遗</span><span class="card-tag">2021年入选</span></div>
+                    <button class="detail-toggle" onclick="toggleDetail('d2', this)">📖 展开官方介绍详情 <i class="fas fa-chevron-down"></i></button>
+                    <div class="detail-box" id="d2">
+                        <strong>项目名称：</strong>小吃制作技艺（火宫殿臭豆腐制作技艺）<br>
+                        <strong>项目编号：</strong>Ⅷ-276<br>
+                        <strong>公布时间：</strong>2021年（第五批国家级非物质文化遗产代表性项目名录）<br>
+                        <strong>保护单位：</strong>长沙火宫殿有限公司<br><br>
+                        <strong>技艺特点：</strong>火宫殿臭豆腐制作技艺包括制卤、制坯、浸泡、炸制、制汤五个主要环节。卤水以香菇、鲜冬笋、浏阳豆豉、曲酒、青矾等二十余种原料，经冬至开始发酵，持续两年以上方可使用。豆腐坯选用优质黄豆制成，入卤水浸泡后呈青黑色，茶油炸制后外焦里嫩、鼓胀饱满，佐以辣椒油、酱油、麻油等调料，闻起来臭、吃起来香。<br><br>
+                        <strong>传承价值：</strong>该技艺是湖湘饮食文化的典型代表，毛泽东、洛夫等名人曾品尝并题词赞誉，具有重要的历史、文化和科学价值。
+                    </div>
+                </div>
+
+                <div class="heritage-card">
+                    <div class="card-top"><i class="fas fa-utensils"></i><h3>八大传统小吃</h3></div>
+                    <p>油炸臭豆腐、姊妹团子、龙脂猪血、三角干子、煮馓子、红烧猪脚、荷兰粉、八宝果饭——火宫殿八大传统小吃制作技艺列入湖南省非物质文化遗产名录。</p>
+                    <div><span class="card-tag">省级非遗</span><span class="card-tag">湖湘饮食</span></div>
+                    <button class="detail-toggle" onclick="toggleDetail('d3', this)">📖 展开详细介绍 <i class="fas fa-chevron-down"></i></button>
+                    <div class="detail-box" id="d3">
+                        <strong>项目名称：</strong>火宫殿八大传统小吃制作技艺<br>
+                        <strong>级别：</strong>湖南省非物质文化遗产代表性项目<br><br>
+                        <strong>八大小吃：</strong><br>
+                        ① <strong>油炸臭豆腐</strong>——外焦里嫩，闻臭品香，火宫殿招牌；<br>
+                        ② <strong>姊妹团子</strong>——糯米粉制皮，一甜一咸双味，形似姐妹；<br>
+                        ③ <strong>龙脂猪血</strong>——猪血嫩滑如脂，配以辣椒、葱花、麻油；<br>
+                        ④ <strong>三角干子</strong>——豆腐干卤制，三角造型，香辣入味；<br>
+                        ⑤ <strong>煮馓子</strong>——细面馓子入汤煮制，软糯鲜香；<br>
+                        ⑥ <strong>红烧猪脚</strong>——色泽红亮，软烂脱骨，胶质丰富；<br>
+                        ⑦ <strong>荷兰粉</strong>——蚕豆粉制成，晶莹爽滑，佐以调料；<br>
+                        ⑧ <strong>八宝果饭</strong>——糯米配红枣、莲子等八宝，甜糯可口。<br><br>
+                        这些小吃制作技艺代代相传，是长沙民俗饮食文化的重要组成部分。
+                    </div>
+                </div>
+
+                <div class="heritage-card">
+                    <div class="card-top"><i class="fas fa-gopuram"></i><h3>火宫殿古建</h3></div>
+                    <p>火宫殿始建于明万历五年（1577年），现存火神庙、古戏台、牌坊等建筑。火宫殿牌坊被审定为长沙市重点文物保护单位，古戏台常年上演湘剧、弹词等湖湘曲艺。</p>
+                    <div><span class="card-tag">文化地标</span><span class="card-tag">市级文保</span></div>
+                    <button class="detail-toggle" onclick="toggleDetail('d4', this)">📖 展开详细介绍 <i class="fas fa-chevron-down"></i></button>
+                    <div class="detail-box" id="d4">
+                        <strong>建筑沿革：</strong>火宫殿始建于明万历五年（1577年），原名"火神庙"，清乾隆十二年（1747年）重修，道光六年（1826年）再次扩建。现存建筑群包括火神庙、古戏台、牌坊、财神殿等，占地约6000平方米。<br><br>
+                        <strong>核心建筑：</strong><br>
+                        • <strong>火神庙</strong>——供奉火神祝融，是火宫殿祭祀文化的核心场所；<br>
+                        • <strong>古戏台</strong>——建于清代，木结构，飞檐翘角，常年上演湘剧、长沙弹词、评书等；<br>
+                        • <strong>火宫殿牌坊</strong>——被审定为长沙市重点文物保护单位，是坡子街的地标性建筑。<br><br>
+                        <strong>文化地位：</strong>火宫殿是长沙历史文化名城的重要见证，集火庙文化、饮食文化、戏曲文化、民俗文化于一体，被誉为"湖湘小吃的发源地"和"长沙的民俗博物馆"。
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <p><i class="fas fa-fire"></i> 火宫殿 · 中华老字号 · 非遗数字馆 <i class="fas fa-fire"></i></p>
+            <p style="margin-top:12px; font-size:0.9rem; opacity:0.7;">资料整理自中国非物质文化遗产网、科普中国等公开平台</p>
+        </footer>
+        <div class="bottom-ornament"></div>
+    </div>
+
+    <script>
+        function toggleDetail(id, btn) {
+            const box = document.getElementById(id);
+            const isOpen = box.classList.contains('open');
+            if (isOpen) {
+                box.classList.remove('open');
+                btn.innerHTML = '📖 展开官方介绍详情 <i class="fas fa-chevron-down"></i>';
+            } else {
+                box.classList.add('open');
+                btn.innerHTML = '📖 收起详情 <i class="fas fa-chevron-up"></i>';
+            }
+        }
+    </script>
+</body>
+</html>
