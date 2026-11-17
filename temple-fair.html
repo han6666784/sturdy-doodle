@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>云游庙会 · 火宫殿数字馆</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { width: 100%; min-height: 100vh; }
+        body { background-color: #1a1512; font-family: 'Noto Serif SC', serif; color: #2e241e; line-height: 1.6; }
+        .scroll-container { width: 100%; min-height: 100vh; background: #fbf3e8; border-left: 16px solid #7a4a2e; border-right: 16px solid #7a4a2e; }
+        .top-ornament, .bottom-ornament { height: 14px; background: linear-gradient(90deg, #b87c4b, #e6c8a6, #b87c4b); }
+        .navbar {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 50px; background: rgba(122,74,46,0.97);
+            color: #f7efe4; position: sticky; top: 0; z-index: 100;
+            border-bottom: 3px solid #e6c8a6; box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+            flex-wrap: wrap; gap: 15px;
+        }
+        .logo h1 { font-family: 'ZCOOL XiaoWei', serif; font-size: 2.4rem; letter-spacing: 8px; color: #ffd99b; text-shadow: 4px 4px 0 #4a2c1a; }
+        .logo span { font-size: 0.8rem; letter-spacing: 3px; color: #e0c7a8; display: block; font-weight: 300; }
+        .nav-links { display: flex; gap: 22px; flex-wrap: wrap; }
+        .nav-links a { color: #f0ddc5; text-decoration: none; font-weight: 600; font-size: 0.95rem; padding: 8px 0; border-bottom: 3px solid transparent; transition: all 0.25s ease; letter-spacing: 1px; }
+        .nav-links a:hover, .nav-links a.active { border-bottom-color: #ffb882; color: #ffe6c7; transform: translateY(-2px); }
+        .page-header {
+            padding: 50px 60px 35px; background: linear-gradient(135deg, #2b1d12 0%, #4e3322 100%);
+            color: #f5e6d3; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;
+        }
+        .page-header h2 { font-family: 'ZCOOL XiaoWei', serif; font-size: 3rem; color: #ffcf8f; text-shadow: 3px 3px 0 #3a2416; letter-spacing: 4px; }
+        .page-header p { color: #e3d0bb; font-size: 1.05rem; margin-top: 8px; }
+        .back-home { display: inline-flex; align-items: center; gap: 8px; background: #ffb37a; color: #2b1d12; padding: 12px 28px; border-radius: 40px; text-decoration: none; font-weight: 700; transition: 0.2s; white-space: nowrap; }
+        .back-home:hover { background: #ffcf8f; transform: scale(1.03); }
+
+        .fair-scene { padding: 40px 60px 70px; max-width: 1100px; margin: 0 auto; }
+        .scene-map {
+            position: relative; background: linear-gradient(180deg, #fdf1e3 0%, #f5e6d3 100%);
+            border-radius: 30px; padding: 50px 40px; min-height: 480px;
+            border: 3px solid #e3c9b0; box-shadow: 0 16px 40px rgba(90,60,40,0.15);
+            display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: center;
+        }
+        .scene-map::before {
+            content: '🏮 火宫殿庙会 · 点击热点探索 🏮';
+            position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+            font-family: 'ZCOOL XiaoWei', serif; font-size: 1.1rem; color: #8b6b51;
+            letter-spacing: 2px; white-space: nowrap;
+        }
+
+        .hotspot {
+            position: relative; width: 200px; height: 180px;
+            background: #fff9f2; border-radius: 20px; border: 3px solid #dbbd9c;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.3s ease; text-align: center; padding: 16px;
+        }
+        .hotspot:hover {
+            transform: translateY(-8px) scale(1.03); border-color: #b87c4b;
+            box-shadow: 0 16px 30px rgba(90,60,40,0.25);
+        }
+        .hotspot i { font-size: 3.2rem; color: #b87c4b; margin-bottom: 12px; }
+        .hotspot h4 { font-family: 'ZCOOL XiaoWei', serif; font-size: 1.2rem; color: #5a3420; margin-bottom: 6px; }
+        .hotspot p { font-size: 0.8rem; color: #8b6b51; }
+        .hotspot .pulse {
+            position: absolute; top: 10px; right: 10px; width: 12px; height: 12px;
+            background: #e53935; border-radius: 50%; animation: pulseDot 1.5s infinite;
+        }
+        @keyframes pulseDot {
+            0% { box-shadow: 0 0 0 0 rgba(229,57,53,0.6); }
+            70% { box-shadow: 0 0 0 12px rgba(229,57,53,0); }
+            100% { box-shadow: 0 0 0 0 rgba(229,57,53,0); }
+        }
+
+        .info-panel {
+            margin-top: 30px; background: #fff9f2; border-radius: 24px;
+            padding: 35px 40px; border-left: 10px solid #b87c4b;
+            display: none; animation: fadeIn 0.35s ease;
+        }
+        .info-panel.show { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .info-panel h3 { font-family: 'ZCOOL XiaoWei', serif; font-size: 1.8rem; color: #5a3420; margin-bottom: 14px; }
+        .info-panel p { color: #6b4f3a; line-height: 1.9; margin-bottom: 12px; }
+        .info-panel .meta { font-size: 0.9rem; color: #b87c4b; font-weight: 600; }
+
+        .toast {
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%) translateY(30px);
+            background: #3a2416; color: #ffe6c7; padding: 16px 40px; border-radius: 50px;
+            font-weight: 600; box-shadow: 0 15px 30px rgba(0,0,0,0.6); opacity: 0;
+            transition: 0.3s; pointer-events: none; z-index: 999;
+            border: 2px solid #b87c4b; font-size: 1.05rem; max-width: 90vw; text-align: center;
+        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        .footer { background: #2b1d12; color: #bda78e; text-align: center; padding: 45px 30px; font-size: 0.95rem; border-top: 8px solid #b87c4b; }
+        .footer i { color: #b87c4b; margin: 0 6px; }
+
+        @media (max-width: 900px) {
+            .navbar { flex-direction: column; padding: 15px 20px; }
+            .page-header { padding: 40px 25px; }
+            .page-header h2 { font-size: 2.2rem; }
+            .fair-scene { padding: 30px 18px 50px; }
+            .scene-map { padding: 50px 20px; }
+            .hotspot { width: 150px; height: 160px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="top-ornament"></div>
+        <nav class="navbar">
+            <div class="logo"><h1>火宫殿</h1><span>HUO GONG DIAN · 1577</span></div>
+            <div class="nav-links">
+                <a href="index.html">首页</a>
+                <a href="heritage.html">非遗技艺</a>
+                <a href="tofu.html">臭豆腐工坊</a>
+                <a href="creative.html">AI文创</a>
+                <a href="temple-fair.html" class="active">云游庙会</a>
+                <a href="museum.html">数字博物馆</a>
+                <a href="snacks.html">小吃游戏</a>
+                <a href="license.html">授权联名</a>
+            </div>
+        </nav>
+
+        <div class="page-header">
+            <div>
+                <h2><i class="fas fa-lantern"></i> 云游庙会</h2>
+                <p>点击场景中的热点，沉浸式探索火宫殿庙会的烟火人间</p>
+            </div>
+            <a href="index.html" class="back-home"><i class="fas fa-arrow-left"></i> 返回首页</a>
+        </div>
+
+        <div class="fair-scene">
+            <div class="scene-map" id="sceneMap"></div>
+            <div class="info-panel" id="infoPanel">
+                <h3 id="infoTitle"></h3>
+                <p id="infoText"></p>
+                <div class="meta" id="infoMeta"></div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p><i class="fas fa-fire"></i> 火宫殿 · 中华老字号 · 非遗数字馆 <i class="fas fa-fire"></i></p>
+            <p style="margin-top:12px; font-size:0.9rem; opacity:0.7;">庙会场景为文化体验示意，实际活动以火宫殿官方公告为准</p>
+        </footer>
+        <div class="bottom-ornament"></div>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const HOTSPOTS = [
+            {
+                id: 'opera', icon: '🎭', name: '古戏台', brief: '湘剧开唱',
+                title: '古戏台 · 湘剧与民俗表演',
+                text: '火宫殿古戏台是庙会的核心舞台。庙会期间，每天中午长沙戏窝子准时开唱，湘剧、花鼓戏、长沙弹词轮番登场。入夜后，变脸、喷火、民乐、舞蹈接力上演，脸谱一换、火舌一吐，满堂喝彩。戏台前围满观众，票友登台切磋，以曲会友，非遗戏曲与烟火人间温柔相融。[citation:5]',
+                meta: '📍 火宫殿古戏台 · 庙会期间每日 11:30 / 18:00 开演'
+            },
+            {
+                id: 'food', icon: '🍢', name: '小吃王国', brief: '臭豆腐飘香',
+                title: '小吃王国 · 百种湘味',
+                text: '循着滋滋声响走近，油锅里的臭豆腐正翻滚冒泡，摊前围满排队食客。火宫殿小吃王国从早上7时开到24时，臭豆腐、糖油粑粑、龙脂猪血等上百种小吃花式满足你的胃。庙会期间，小吃摊前永远是最热闹的地方，一口咬下，外酥爆汁，闻臭吃香。[citation:5]',
+                meta: '📍 火宫殿小吃王国 · 07:00 - 24:00'
+            },
+            {
+                id: 'market', icon: '🏮', name: '文创市集', brief: '把火宫殿带回家',
+                title: '文创市集 · 手作与好物',
+                text: '庙会市集小摊热闹开摊，手作年饰、非遗好物、糖画糖人、面部彩绘等特色摊位琳琅满目。火宫殿特产超市特别供应国潮文创产品及特产美食，臭豆腐礼盒、冰箱贴、香囊等融合火庙文化与饮食文化的设计好物，让游客把吉祥与记忆一并带回家。[citation:1][citation:6]',
+                meta: '📍 火宫殿特产超市 & 庙会市集摊位'
+            },
+            {
+                id: 'temple', icon: '🪔', name: '火神庙', brief: '香火祈福',
+                title: '火神庙 · 四百年香火',
+                text: '火宫殿始建于明万历五年（1577年），原名火神庙，供奉火神祝融。四百余年来，香火汇聚人气，更汇聚一地风味。庙会期间，市民游客到此祈福纳祥，火神庙的香火与古戏台的唱腔、小吃的烟火气交织，构成长沙最地道的市井文化图景。',
+                meta: '📍 火神庙 · 始建 1577 年'
+            },
+            {
+                id: 'lantern', icon: '🏮', name: '花灯长廊', brief: '猜谜打卡',
+                title: '花灯长廊 · 元宵灯谜',
+                text: '庙会期间，火宫殿内形态各异的花灯组成梦幻长廊，光影流转中祝福语若隐若现。近百个红灯笼组成的猜灯谜打卡处围满游客，猜灯谜既可开蒙启智，也能增添文化修养。汉服少女提着花灯往来穿梭，卖货郎穿着古装巡游，年味与诗意在此交融。[citation:29]',
+                meta: '📍 火宫殿内院 · 节庆期间限定'
+            },
+            {
+                id: 'handcraft', icon: '🧧', name: '非遗手作', brief: '传承人现场',
+                title: '非遗手作体验 · 传承人面对面',
+                text: '火宫殿庙会也是非遗技艺的活态展场。湘绣传承人指尖流转生花，长沙皮影戏传承人操控“影人”灵动起舞，棕编艺人编制壁虎螳螂栩栩如生。庙会期间常有非遗年俗公益手作体验，游客可在传承人指导下拓印年画、体验皮影，亲手触摸湖湘非遗的温度。[citation:29][citation:27]',
+                meta: '📍 火宫殿庙会非遗展位 · 节庆期间'
+            }
+        ];
+
+        let toastTimer = null;
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.className = 'toast show';
+            if (toastTimer) clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove('show'), 2400);
+        }
+
+        function renderHotspots() {
+            const map = document.getElementById('sceneMap');
+            map.innerHTML = '';
+            HOTSPOTS.forEach(h => {
+                const div = document.createElement('div');
+                div.className = 'hotspot';
+                div.innerHTML = `
+                    <div class="pulse"></div>
+                    <i>${h.icon}</i>
+                    <h4>${h.name}</h4>
+                    <p>${h.brief}</p>
+                `;
+                div.onclick = () => showInfo(h);
+                map.appendChild(div);
+            });
+        }
+
+        function showInfo(h) {
+            document.getElementById('infoTitle').textContent = h.title;
+            document.getElementById('infoText').textContent = h.text;
+            document.getElementById('infoMeta').textContent = h.meta;
+            const panel = document.getElementById('infoPanel');
+            panel.classList.add('show');
+            panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            showToast('📍 正在浏览：' + h.name);
+        }
+
+        window.onload = function() {
+            renderHotspots();
+        };
+    </script>
+</body>
+</html>
