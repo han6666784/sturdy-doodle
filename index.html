@@ -24,10 +24,7 @@
             border-left: 16px solid #7a4a2e;
             border-right: 16px solid #7a4a2e;
         }
-        .top-ornament, .bottom-ornament {
-            height: 14px;
-            background: linear-gradient(90deg, #b87c4b, #e6c8a6, #b87c4b);
-        }
+        .top-ornament, .bottom-ornament { height: 14px; background: linear-gradient(90deg, #b87c4b, #e6c8a6, #b87c4b); }
         .navbar {
             display: flex; justify-content: space-between; align-items: center;
             padding: 18px 50px; background: rgba(122,74,46,0.97);
@@ -35,10 +32,7 @@
             border-bottom: 3px solid #e6c8a6; box-shadow: 0 6px 18px rgba(0,0,0,0.5);
             flex-wrap: wrap; gap: 15px;
         }
-        .logo h1 {
-            font-family: 'ZCOOL XiaoWei', serif; font-size: 2.4rem;
-            letter-spacing: 8px; color: #ffd99b; text-shadow: 4px 4px 0 #4a2c1a;
-        }
+        .logo h1 { font-family: 'ZCOOL XiaoWei', serif; font-size: 2.4rem; letter-spacing: 8px; color: #ffd99b; text-shadow: 4px 4px 0 #4a2c1a; }
         .logo span { font-size: 0.8rem; letter-spacing: 3px; color: #e0c7a8; display: block; font-weight: 300; }
         .nav-links { display: flex; gap: 22px; flex-wrap: wrap; }
         .nav-links a {
@@ -46,9 +40,8 @@
             font-size: 0.95rem; padding: 8px 0; border-bottom: 3px solid transparent;
             transition: all 0.25s ease; letter-spacing: 1px;
         }
-        .nav-links a:hover, .nav-links a.active {
-            border-bottom-color: #ffb882; color: #ffe6c7; transform: translateY(-2px);
-        }
+        .nav-links a:hover, .nav-links a.active { border-bottom-color: #ffb882; color: #ffe6c7; transform: translateY(-2px); }
+
         .hero {
             display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
             padding: 70px 60px; min-height: 520px;
@@ -69,7 +62,7 @@
         .stat-item { text-align: center; border-left: 4px solid #b87c4b; padding-left: 22px; }
         .stat-number { font-size: 2.4rem; font-weight: 900; color: #ffbc7a; line-height: 1; }
         .stat-label { font-size: 0.9rem; color: #c8b09b; letter-spacing: 1.5px; }
-        .hero-img { flex: 0 0 260px; text-align: center; z-index: 2; }
+        .hero-img { flex: 0 0 260px; text-align: center; z-index: 2; position: relative; }
         .hero-img i {
             font-size: 9rem; color: #ffb37a;
             filter: drop-shadow(0 0 30px rgba(255,150,50,0.7));
@@ -79,6 +72,127 @@
             0% { transform: scale(0.95); opacity: 0.9; }
             100% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 40px #ff9f4b; }
         }
+
+        /* ===== 数字化小人 ===== */
+        .digital-avatar {
+            position: fixed; bottom: 30px; right: 30px; z-index: 800;
+            display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+        }
+        .avatar-btn {
+            width: 90px; height: 90px; border-radius: 50%;
+            background: linear-gradient(145deg, #ffb37a, #e67e22);
+            border: 4px solid #ffd99b; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; box-shadow: 0 10px 30px rgba(255,120,50,0.5);
+            transition: all 0.3s ease; position: relative;
+            animation: avatarFloat 3s ease-in-out infinite;
+        }
+        .avatar-btn:hover { transform: scale(1.08); box-shadow: 0 14px 40px rgba(255,120,50,0.7); }
+        @keyframes avatarFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        .avatar-btn .online-dot {
+            position: absolute; top: 4px; right: 4px; width: 16px; height: 16px;
+            background: #4caf50; border-radius: 50%; border: 3px solid #fff;
+            animation: onlinePulse 1.5s infinite;
+        }
+        @keyframes onlinePulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(76,175,80,0.6); }
+            50% { box-shadow: 0 0 0 8px rgba(76,175,80,0); }
+        }
+        .avatar-bubble {
+            background: #fff9f2; border: 2px solid #e3c9b0; border-radius: 18px 18px 4px 18px;
+            padding: 12px 18px; font-size: 0.9rem; color: #5a3420; max-width: 220px;
+            box-shadow: 0 6px 16px rgba(90,60,40,0.2); font-weight: 600;
+            animation: bubbleIn 0.4s ease; position: relative;
+        }
+        @keyframes bubbleIn { from { opacity: 0; transform: translateY(10px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .avatar-bubble::after {
+            content: ''; position: absolute; bottom: -10px; right: 20px;
+            border-left: 10px solid transparent; border-right: 10px solid transparent;
+            border-top: 10px solid #fff9f2;
+        }
+
+        /* ===== AI 聊天窗口 ===== */
+        .chat-window {
+            position: fixed; bottom: 140px; right: 30px; width: 380px; max-width: calc(100vw - 40px);
+            height: 540px; max-height: calc(100vh - 180px); background: #fff9f2;
+            border-radius: 24px; border: 3px solid #b87c4b; z-index: 850;
+            display: flex; flex-direction: column; overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            opacity: 0; transform: translateY(20px) scale(0.95);
+            pointer-events: none; transition: all 0.3s ease;
+        }
+        .chat-window.open { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .chat-header {
+            background: linear-gradient(135deg, #7a4a2e, #4a2c1a); color: #f5e6d3;
+            padding: 18px 22px; display: flex; align-items: center; gap: 12px;
+        }
+        .chat-header .avatar-mini {
+            width: 44px; height: 44px; border-radius: 50%; background: #ffb37a;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+        }
+        .chat-header .chat-title { flex: 1; }
+        .chat-header .chat-title h4 { font-family: 'ZCOOL XiaoWei', serif; font-size: 1.2rem; color: #ffd99b; }
+        .chat-header .chat-title span { font-size: 0.78rem; color: #c8b09b; }
+        .chat-close {
+            background: none; border: none; color: #f0ddc5; font-size: 1.3rem;
+            cursor: pointer; padding: 4px; transition: 0.2s;
+        }
+        .chat-close:hover { color: #fff; transform: scale(1.1); }
+        .chat-body {
+            flex: 1; overflow-y: auto; padding: 20px; display: flex;
+            flex-direction: column; gap: 14px; background: #fbf3e8;
+        }
+        .chat-msg { display: flex; gap: 10px; align-items: flex-start; }
+        .chat-msg .msg-avatar {
+            width: 34px; height: 34px; border-radius: 50%; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 1.1rem;
+        }
+        .chat-msg.bot .msg-avatar { background: #ffb37a; }
+        .chat-msg.user { flex-direction: row-reverse; }
+        .chat-msg.user .msg-avatar { background: #b87c4b; color: #fff; }
+        .msg-bubble {
+            max-width: 78%; padding: 12px 16px; border-radius: 18px;
+            font-size: 0.92rem; line-height: 1.7;
+        }
+        .chat-msg.bot .msg-bubble { background: #fff9f2; border: 1px solid #e3c9b0; color: #3a2416; border-top-left-radius: 4px; }
+        .chat-msg.user .msg-bubble { background: #b87c4b; color: #fff; border-top-right-radius: 4px; }
+        .msg-bubble .typing-cursor { display: inline-block; width: 8px; height: 16px; background: #b87c4b; margin-left: 2px; animation: blinkCursor 0.8s infinite; vertical-align: middle; }
+        @keyframes blinkCursor { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
+
+        .quick-questions {
+            padding: 10px 18px; background: #fbf3e8; display: flex; gap: 8px;
+            flex-wrap: wrap; border-top: 1px solid #e3c9b0;
+        }
+        .quick-q {
+            background: #ffe2c1; border: 1px solid #dbbd9c; color: #5a3420;
+            padding: 6px 14px; border-radius: 20px; font-size: 0.78rem;
+            cursor: pointer; transition: 0.2s; font-family: 'Noto Serif SC', serif;
+            font-weight: 600;
+        }
+        .quick-q:hover { background: #ffcf8f; border-color: #b87c4b; }
+
+        .chat-input-area {
+            padding: 14px 18px; background: #fff9f2; border-top: 2px solid #e3c9b0;
+            display: flex; gap: 10px;
+        }
+        .chat-input-area input {
+            flex: 1; padding: 12px 18px; border-radius: 30px; border: 2px solid #e3c9b0;
+            font-family: 'Noto Serif SC', serif; font-size: 0.92rem; background: #fff;
+            color: #2e241e; outline: none; transition: 0.2s;
+        }
+        .chat-input-area input:focus { border-color: #b87c4b; }
+        .chat-send {
+            background: #ffb37a; border: none; width: 46px; height: 46px;
+            border-radius: 50%; cursor: pointer; font-size: 1.1rem; color: #2b1d12;
+            transition: 0.2s; display: flex; align-items: center; justify-content: center;
+        }
+        .chat-send:hover { background: #ffcf8f; transform: scale(1.05); }
+        .chat-send:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        /* 主内容 */
         .section { padding: 70px 60px; border-bottom: 2px dashed #dbbd9c; }
         .section-title {
             font-family: 'ZCOOL XiaoWei', serif; font-size: 2.6rem; color: #6b3f24;
@@ -111,10 +225,14 @@
             padding: 45px 30px; font-size: 0.95rem; border-top: 8px solid #b87c4b;
         }
         .footer i { color: #b87c4b; margin: 0 6px; }
+
         @media (max-width: 900px) {
             .navbar { flex-direction: column; padding: 15px 20px; }
             .hero, .section { padding: 40px 25px; }
             .hero-text h2 { font-size: 2.4rem; }
+            .chat-window { right: 10px; bottom: 130px; width: calc(100vw - 20px); height: 60vh; }
+            .digital-avatar { bottom: 20px; right: 20px; }
+            .avatar-btn { width: 70px; height: 70px; font-size: 2.2rem; }
         }
     </style>
 </head>
@@ -219,5 +337,204 @@
         </footer>
         <div class="bottom-ornament"></div>
     </div>
+
+    <!-- ===== 数字化小人 ===== -->
+    <div class="digital-avatar" id="digitalAvatar">
+        <div class="avatar-bubble" id="avatarBubble">你好呀！我是火宫殿数字小助手「小火」，点击我可以聊天哦～</div>
+        <div class="avatar-btn" id="avatarBtn" onclick="toggleChat()">
+            <span id="avatarEmoji">🧑‍🍳</span>
+            <span class="online-dot"></span>
+        </div>
+    </div>
+
+    <!-- ===== AI 聊天窗口 ===== -->
+    <div class="chat-window" id="chatWindow">
+        <div class="chat-header">
+            <div class="avatar-mini">🧑‍🍳</div>
+            <div class="chat-title">
+                <h4>数字小火 · AI 助手</h4>
+                <span>火宫殿文化问答 · 在线</span>
+            </div>
+            <button class="chat-close" onclick="toggleChat()"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="chat-body" id="chatBody">
+            <div class="chat-msg bot">
+                <div class="msg-avatar">🧑‍🍳</div>
+                <div class="msg-bubble">你好！我是火宫殿数字小助手「小火」🔥<br>关于火宫殿的历史、非遗、小吃、庙会，都可以问我哦！</div>
+            </div>
+        </div>
+        <div class="quick-questions">
+            <button class="quick-q" onclick="quickAsk('火宫殿有多少年历史？')">火宫殿历史</button>
+            <button class="quick-q" onclick="quickAsk('臭豆腐为什么闻起来臭吃起来香？')">臭豆腐</button>
+            <button class="quick-q" onclick="quickAsk('火宫殿有哪些非遗项目？')">非遗项目</button>
+            <button class="quick-q" onclick="quickAsk('庙会什么时候举办？')">庙会时间</button>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="输入你的问题…" onkeypress="if(event.key==='Enter') sendMessage()">
+            <button class="chat-send" id="chatSend" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <script>
+        /* ===================== 数字化小人 & 聊天 ===================== */
+        const chatWindow = document.getElementById('chatWindow');
+        const chatBody = document.getElementById('chatBody');
+        const chatInput = document.getElementById('chatInput');
+        const avatarBubble = document.getElementById('avatarBubble');
+        let chatOpen = false;
+        let bubbleTimer = null;
+
+        // 知识库：关键词匹配
+        const KNOWLEDGE_BASE = [
+            {
+                keywords: ['历史', '多少年', '始于', '1577', '多久', '起源', '建立'],
+                answer: '火宫殿始建于明万历五年（1577年），原名火神庙，供奉火神祝融。至今已有440余年历史，是长沙最具代表性的老字号之一。清代乾隆年间重修、道光年间扩建，2008年火宫殿庙会列入国家级非遗，2021年臭豆腐制作技艺也入选国家级非遗。'
+            },
+            {
+                keywords: ['臭豆腐', '闻起来臭', '为什么臭', '卤水', '制作'],
+                answer: '火宫殿臭豆腐的"臭"来自特制卤水——以香菇、鲜冬笋、浏阳豆豉、曲酒等二十余种原料，冬至开始发酵，至少持续两年以上。白豆腐入卤浸泡后呈青黑色，茶油炸至外焦里嫩，吃起来香气扑鼻。2021年，火宫殿臭豆腐制作技艺列入第五批国家级非物质文化遗产名录。'
+            },
+            {
+                keywords: ['非遗', '非物质文化遗产', '国家级', '省级', '项目'],
+                answer: '火宫殿拥有多项非遗：①火宫殿庙会（2008年国家级非遗，编号Ⅹ-84）；②臭豆腐制作技艺（2021年国家级非遗，编号Ⅷ-276）；③八大传统小吃制作技艺（湖南省级非遗）。此外还有火宫殿古建（长沙市重点文物保护单位）等文化地标。'
+            },
+            {
+                keywords: ['庙会', '什么时候', '时间', '日期', '举办', '几月'],
+                answer: '火宫殿庙会每年腊月二十三至正月十五举行，是长沙最盛大的民俗活动之一。庙会集祭祀火神、戏曲演出、小吃展销、手工艺展示于一体。2008年列入国家级非遗。庙会期间古戏台每日有湘剧、长沙弹词、评书等演出，还有舞龙舞狮、苗鼓傩戏等民俗绝活。'
+            },
+            {
+                keywords: ['小吃', '八大', '好吃', '推荐', '美食', '吃什么'],
+                answer: '火宫殿八大传统小吃包括：油炸臭豆腐、姊妹团子、龙脂猪血、三角干子、煮馓子、红烧猪脚、荷兰粉、八宝果饭。其中臭豆腐是招牌，姊妹团子一甜一咸双味，龙脂猪血嫩滑如脂。你可以进入"小吃接单游戏"页面体验点单挑战哦！'
+            },
+            {
+                keywords: ['戏台', '戏曲', '湘剧', '弹词', '评书', '演出'],
+                answer: '火宫殿古戏台始建于清代，是庙会戏曲演出的核心场所。常年上演湘剧（高腔高亢激越，2006年国家级非遗）、长沙弹词（月琴伴奏的说唱，2008年国家级非遗）、评书等。庙会期间还有苗鼓、傩戏、打溜子等民俗绝活，以及转糖、捏面人、剪纸等手工艺展示。'
+            },
+            {
+                keywords: ['文创', 'AI', '设计', '联名', '合作'],
+                answer: '我们设有"AI文创工坊"页面，你可以选取臭豆腐、牌楼、戏台等文化素材，搭配国潮、极简、赛博、水墨等风格，生成专属数字文创方案。另外"授权联名"页面展示了火宫殿与麦当劳、好伴礼、金湘权等品牌的联名案例，也支持提交合作意向哦！'
+            },
+            {
+                keywords: ['云游', '庙会场景', '虚拟', '博物馆', '时间轴'],
+                answer: '"云游庙会"页面可以点击场景热点探索古戏台、小吃王国、火神庙、花灯长廊、非遗手作等区域。"数字博物馆"页面则沿着时间轴从1577年火神庙始建到当代数字化，点击展品可查看详细档案。快去体验吧！'
+            },
+            {
+                keywords: ['你好', 'hi', 'hello', '在吗', '你是谁'],
+                answer: '你好呀！我是火宫殿数字小助手「小火」🔥 我了解火宫殿的历史、非遗、小吃、庙会、文创等文化知识。你可以问我："火宫殿有多少年历史？""臭豆腐为什么臭？""庙会什么时候举办？"等等～'
+            },
+            {
+                keywords: ['谢谢', '感谢', '好的', '明白了'],
+                answer: '不客气！很高兴能帮你了解火宫殿的文化故事～ 如果还有其他问题，随时问我哦！🔥'
+            }
+        ];
+
+        const DEFAULT_ANSWER = '这个问题有点难住小火了～ 你可以问我关于火宫殿的：历史沿革、非遗项目、臭豆腐制作、庙会时间、八大传统小吃、戏台戏曲、AI文创、云游庙会等话题。也可以点击下方的快捷问题试试哦！';
+
+        function findAnswer(question) {
+            const q = question.toLowerCase();
+            for (const item of KNOWLEDGE_BASE) {
+                if (item.keywords.some(kw => q.includes(kw))) {
+                    return item.answer;
+                }
+            }
+            return DEFAULT_ANSWER;
+        }
+
+        function toggleChat() {
+            chatOpen = !chatOpen;
+            chatWindow.classList.toggle('open', chatOpen);
+            if (chatOpen) {
+                chatInput.focus();
+                avatarBubble.style.display = 'none';
+            } else {
+                avatarBubble.style.display = 'block';
+                avatarBubble.textContent = '随时点我聊天哦～';
+            }
+        }
+
+        function addMessage(text, sender) {
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'chat-msg ' + sender;
+            const avatarEmoji = sender === 'bot' ? '🧑‍🍳' : '🙋';
+            msgDiv.innerHTML = `
+                <div class="msg-avatar">${avatarEmoji}</div>
+                <div class="msg-bubble"></div>
+            `;
+            chatBody.appendChild(msgDiv);
+            chatBody.scrollTop = chatBody.scrollHeight;
+            return msgDiv.querySelector('.msg-bubble');
+        }
+
+        // 打字机效果
+        function typeWriter(element, text, callback) {
+            let i = 0;
+            element.innerHTML = '';
+            const cursor = document.createElement('span');
+            cursor.className = 'typing-cursor';
+            element.appendChild(cursor);
+            const timer = setInterval(() => {
+                if (i < text.length) {
+                    cursor.insertAdjacentText('beforebegin', text.charAt(i));
+                    i++;
+                    chatBody.scrollTop = chatBody.scrollHeight;
+                } else {
+                    clearInterval(timer);
+                    cursor.remove();
+                    if (callback) callback();
+                }
+            }, 25);
+        }
+
+        function sendMessage() {
+            const text = chatInput.value.trim();
+            if (!text) return;
+            chatInput.value = '';
+            chatInput.disabled = true;
+            document.getElementById('chatSend').disabled = true;
+
+            // 用户消息
+            addMessage(text, 'user');
+
+            // 机器人回复
+            const botBubble = addMessage('', 'bot');
+            const answer = findAnswer(text);
+
+            setTimeout(() => {
+                typeWriter(botBubble, answer, () => {
+                    chatInput.disabled = false;
+                    document.getElementById('chatSend').disabled = false;
+                    chatInput.focus();
+                });
+            }, 400);
+        }
+
+        function quickAsk(question) {
+            chatInput.value = question;
+            sendMessage();
+        }
+
+        // 初始气泡自动变化
+        const bubbleTexts = [
+            '你好呀！我是火宫殿数字小助手「小火」～',
+            '想了解火宫殿的历史吗？点我聊聊吧！',
+            '臭豆腐为什么闻起来臭？我知道答案哦～',
+            '庙会什么时候举办？来问我吧！',
+            '我还能介绍非遗项目、八大传统小吃呢！'
+        ];
+        let bubbleIndex = 0;
+        setInterval(() => {
+            if (!chatOpen) {
+                bubbleIndex = (bubbleIndex + 1) % bubbleTexts.length;
+                avatarBubble.textContent = bubbleTexts[bubbleIndex];
+            }
+        }, 5000);
+
+        // 点击页面其他区域时，气泡提示保持可见
+        document.addEventListener('click', function(e) {
+            if (!chatOpen && !e.target.closest('.digital-avatar')) {
+                avatarBubble.style.display = 'block';
+            }
+        });
+    </script>
 </body>
 </html>
