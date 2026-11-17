@@ -9,75 +9,18 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { width: 100%; min-height: 100vh; }
-
-        /* ===== 火宫殿氛围背景：暖色渐变 + 火星粒子 + 庙宇剪影 ===== */
         body {
+            background-color: #1a1512;
             font-family: 'Noto Serif SC', serif;
             color: #2e241e;
             line-height: 1.6;
-            position: relative;
-            background: #1a0e08;
-            overflow-x: hidden;
         }
-
-        /* 背景层：庙宇剪影 + 暖光 */
-        .bg-scene {
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background:
-                radial-gradient(ellipse at 50% 100%, rgba(200, 90, 30, 0.35) 0%, transparent 60%),
-                radial-gradient(ellipse at 20% 30%, rgba(255, 150, 60, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(255, 120, 40, 0.1) 0%, transparent 45%),
-                linear-gradient(180deg, #0f0704 0%, #1f0e05 40%, #2b1408 70%, #1a0a04 100%);
-            pointer-events: none;
-        }
-
-        /* 庙宇剪影 SVG（纯 CSS 内联，无外部依赖） */
-        .bg-scene::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 45vh;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" preserveAspectRatio="none"><path d="M0,400 L0,280 Q30,260 60,280 L60,220 Q80,200 100,220 L100,280 Q130,260 160,280 L160,200 Q190,170 220,200 L220,280 Q250,260 280,280 L280,240 Q310,210 340,240 L340,280 Q400,250 460,280 L460,180 Q490,140 520,180 L520,280 Q560,250 600,280 L600,220 Q630,190 660,220 L660,280 Q700,250 740,280 L740,200 Q770,160 800,200 L800,280 Q840,250 880,280 L880,240 Q910,210 940,240 L940,280 Q980,250 1020,280 L1020,220 Q1050,190 1080,220 L1080,280 Q1120,250 1160,280 L1160,400 Z" fill="rgba(30,15,8,0.85)"/></svg>') no-repeat bottom center;
-            background-size: cover;
-            opacity: 0.9;
-        }
-
-        /* 飘动的火星粒子 */
-        .sparks {
-            position: fixed;
-            inset: 0;
-            z-index: 1;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .spark {
-            position: absolute;
-            width: 6px; height: 6px;
-            background: radial-gradient(circle, #ffb347, #ff6a00);
-            border-radius: 50%;
-            box-shadow: 0 0 10px 2px rgba(255, 140, 40, 0.6);
-            animation: floatUp linear infinite;
-            opacity: 0;
-        }
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            10% { opacity: 0.9; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(-100vh) scale(0.2); opacity: 0; }
-        }
-
-        /* 主容器（内容层） */
         .scroll-container {
-            position: relative;
-            z-index: 2;
             width: 100%;
             min-height: 100vh;
-            background: rgba(251, 243, 232, 0.92);
-            backdrop-filter: blur(2px);
+            background: #fbf3e8;
+            background-image: radial-gradient(circle at 20% 30%, rgba(200,150,100,0.1) 0%, transparent 40%),
+                              radial-gradient(circle at 85% 75%, rgba(180,120,70,0.1) 0%, transparent 45%);
             border-left: 16px solid #7a4a2e;
             border-right: 16px solid #7a4a2e;
         }
@@ -92,14 +35,20 @@
             border-bottom: 3px solid #e6c8a6; box-shadow: 0 6px 18px rgba(0,0,0,0.5);
             flex-wrap: wrap; gap: 15px;
         }
-        .logo h1 { font-family: 'ZCOOL XiaoWei', serif; font-size: 2.4rem; letter-spacing: 8px; color: #ffd99b; text-shadow: 4px 4px 0 #4a2c1a; }
-        .logo span { font-size: 0.8rem; letter-spacing: 3px; color: #e0c7a8; display: block; font-weight: 300; }
-        .nav-links { display: flex; gap: 30px; flex-wrap: wrap; }
-        .nav-links a {
-            color: #f0ddc5; text-decoration: none; font-weight: 600; font-size: 1.05rem;
-            padding: 8px 0; border-bottom: 3px solid transparent; transition: all 0.25s ease; letter-spacing: 1px;
+        .logo h1 {
+            font-family: 'ZCOOL XiaoWei', serif; font-size: 2.4rem;
+            letter-spacing: 8px; color: #ffd99b; text-shadow: 4px 4px 0 #4a2c1a;
         }
-        .nav-links a:hover, .nav-links a.active { border-bottom-color: #ffb882; color: #ffe6c7; transform: translateY(-2px); }
+        .logo span { font-size: 0.8rem; letter-spacing: 3px; color: #e0c7a8; display: block; font-weight: 300; }
+        .nav-links { display: flex; gap: 22px; flex-wrap: wrap; }
+        .nav-links a {
+            color: #f0ddc5; text-decoration: none; font-weight: 600;
+            font-size: 0.95rem; padding: 8px 0; border-bottom: 3px solid transparent;
+            transition: all 0.25s ease; letter-spacing: 1px;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            border-bottom-color: #ffb882; color: #ffe6c7; transform: translateY(-2px);
+        }
         .hero {
             display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
             padding: 70px 60px; min-height: 520px;
@@ -111,156 +60,65 @@
             right: -80px; bottom: -120px; opacity: 0.08; transform: rotate(15deg);
         }
         .hero-text { flex: 1 1 500px; z-index: 2; }
-        .hero-text h2 { font-family: 'ZCOOL XiaoWei', serif; font-size: 3.6rem; color: #ffcf8f; margin-bottom: 25px; text-shadow: 4px 4px 0 #3a2416; letter-spacing: 5px; }
+        .hero-text h2 {
+            font-family: 'ZCOOL XiaoWei', serif; font-size: 3.6rem; color: #ffcf8f;
+            margin-bottom: 25px; text-shadow: 4px 4px 0 #3a2416; letter-spacing: 5px;
+        }
         .hero-text p { font-size: 1.15rem; margin-bottom: 35px; max-width: 700px; color: #e3d0bb; line-height: 1.9; }
         .hero-stats { display: flex; gap: 45px; margin-top: 30px; flex-wrap: wrap; }
         .stat-item { text-align: center; border-left: 4px solid #b87c4b; padding-left: 22px; }
         .stat-number { font-size: 2.4rem; font-weight: 900; color: #ffbc7a; line-height: 1; }
         .stat-label { font-size: 0.9rem; color: #c8b09b; letter-spacing: 1.5px; }
         .hero-img { flex: 0 0 260px; text-align: center; z-index: 2; }
-        .hero-img i { font-size: 9rem; color: #ffb37a; filter: drop-shadow(0 0 30px rgba(255,150,50,0.7)); animation: pulse 2.5s infinite alternate; }
-        @keyframes pulse { 0% { transform: scale(0.95); opacity: 0.9; } 100% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 40px #ff9f4b; } }
+        .hero-img i {
+            font-size: 9rem; color: #ffb37a;
+            filter: drop-shadow(0 0 30px rgba(255,150,50,0.7));
+            animation: pulse 2.5s infinite alternate;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.9; }
+            100% { transform: scale(1.05); opacity: 1; text-shadow: 0 0 40px #ff9f4b; }
+        }
         .section { padding: 70px 60px; border-bottom: 2px dashed #dbbd9c; }
-        .section-title { font-family: 'ZCOOL XiaoWei', serif; font-size: 2.6rem; color: #6b3f24; margin-bottom: 15px; letter-spacing: 4px; display: flex; align-items: center; gap: 18px; }
+        .section-title {
+            font-family: 'ZCOOL XiaoWei', serif; font-size: 2.6rem; color: #6b3f24;
+            margin-bottom: 15px; letter-spacing: 4px; display: flex; align-items: center; gap: 18px;
+        }
         .section-title i { color: #b87c4b; font-size: 2.2rem; }
         .section-sub { color: #8b6b51; margin-bottom: 45px; font-size: 1.1rem; font-style: italic; border-left: 4px solid #dbbd9c; padding-left: 20px; }
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 30px; }
         .heritage-card {
             background: #fff9f2; border-radius: 20px; padding: 35px 28px;
             box-shadow: 0 12px 24px rgba(90,60,40,0.18); border: 1px solid #e3c9b0;
             transition: all 0.3s ease; text-align: center; display: flex;
             flex-direction: column; align-items: center; text-decoration: none; color: inherit;
         }
-        .heritage-card:hover { transform: translateY(-12px); box-shadow: 0 24px 36px rgba(120,70,30,0.3); border-color: #b87c4b; background: #fffdf9; }
+        .heritage-card:hover {
+            transform: translateY(-12px); box-shadow: 0 24px 36px rgba(120,70,30,0.3);
+            border-color: #b87c4b; background: #fffdf9;
+        }
         .heritage-card i { font-size: 3.5rem; color: #b87c4b; margin-bottom: 22px; }
         .heritage-card h3 { font-size: 1.6rem; color: #5a3420; margin-bottom: 12px; font-family: 'ZCOOL XiaoWei', serif; }
         .heritage-card p { font-size: 0.95rem; color: #6b4f3a; margin-bottom: 18px; line-height: 1.7; flex: 1; }
-        .card-tag { display: inline-block; background: #dbbd9c; color: #3a2416; padding: 5px 18px; border-radius: 30px; font-size: 0.8rem; font-weight: 600; margin-bottom: 14px; }
+        .card-tag {
+            display: inline-block; background: #dbbd9c; color: #3a2416;
+            padding: 5px 18px; border-radius: 30px; font-size: 0.8rem; font-weight: 600; margin-bottom: 14px;
+        }
         .card-link { display: inline-block; color: #b87c4b; font-size: 0.9rem; font-weight: 700; text-decoration: underline; text-underline-offset: 4px; }
         .card-link:hover { color: #8b5a2b; }
-        .footer { background: #2b1d12; color: #bda78e; text-align: center; padding: 45px 30px; font-size: 0.95rem; border-top: 8px solid #b87c4b; }
+        .footer {
+            background: #2b1d12; color: #bda78e; text-align: center;
+            padding: 45px 30px; font-size: 0.95rem; border-top: 8px solid #b87c4b;
+        }
         .footer i { color: #b87c4b; margin: 0 6px; }
-
-        /* ===== 可对话动画小人（庙会小掌柜） ===== */
-        .mascot-wrap {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 500;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 12px;
-        }
-        .mascot-bubble {
-            background: #fff9f2;
-            border: 3px solid #b87c4b;
-            border-radius: 20px 20px 4px 20px;
-            padding: 16px 22px;
-            max-width: 260px;
-            box-shadow: 0 10px 28px rgba(0,0,0,0.35);
-            font-size: 0.92rem;
-            color: #3a2416;
-            line-height: 1.7;
-            display: none;
-            position: relative;
-            animation: bubbleIn 0.25s ease;
-        }
-        .mascot-bubble.show { display: block; }
-        @keyframes bubbleIn { from { opacity: 0; transform: translateY(8px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .mascot-bubble .bubble-name {
-            font-weight: 900;
-            color: #b35e1a;
-            font-family: 'ZCOOL XiaoWei', serif;
-            font-size: 1rem;
-            margin-bottom: 4px;
-        }
-        .mascot-bubble .bubble-actions {
-            margin-top: 10px;
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        .mascot-bubble .bubble-actions button {
-            background: #ffb37a;
-            border: none;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: 700;
-            color: #2b1d12;
-            cursor: pointer;
-            font-size: 0.82rem;
-            font-family: 'Noto Serif SC', serif;
-            transition: 0.2s;
-        }
-        .mascot-bubble .bubble-actions button:hover { background: #ffcf8f; }
-        .mascot-bubble .bubble-close {
-            position: absolute;
-            top: -10px;
-            right: -10px;
-            width: 26px; height: 26px;
-            border-radius: 50%;
-            background: #b87c4b;
-            color: #fff;
-            border: 2px solid #fff9f2;
-            cursor: pointer;
-            font-weight: 900;
-            font-size: 0.8rem;
-            line-height: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .mascot-figure {
-            cursor: pointer;
-            transition: transform 0.25s ease;
-            position: relative;
-            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.4));
-        }
-        .mascot-figure:hover { transform: scale(1.08) translateY(-4px); }
-        .mascot-figure .body-svg { display: block; }
-
-        /* 小人轻微摇摆动画 */
-        @keyframes mascotSway {
-            0%, 100% { transform: rotate(-2deg); }
-            50% { transform: rotate(2deg); }
-        }
-        .mascot-figure .body-svg { animation: mascotSway 3s ease-in-out infinite; transform-origin: bottom center; }
-
-        /* 小人头顶提示 */
-        .mascot-hint {
-            position: absolute;
-            top: -22px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ffb37a;
-            color: #2b1d12;
-            font-size: 0.72rem;
-            font-weight: 700;
-            padding: 3px 12px;
-            border-radius: 20px;
-            white-space: nowrap;
-            animation: hintPulse 1.8s infinite;
-            pointer-events: none;
-        }
-        @keyframes hintPulse { 0%,100% { opacity: 0.7; transform: translateX(-50%) scale(1); } 50% { opacity: 1; transform: translateX(-50%) scale(1.06); } }
-
         @media (max-width: 900px) {
             .navbar { flex-direction: column; padding: 15px 20px; }
             .hero, .section { padding: 40px 25px; }
             .hero-text h2 { font-size: 2.4rem; }
-            .mascot-wrap { bottom: 16px; right: 16px; }
-            .mascot-bubble { max-width: 220px; }
-            .bg-scene::after { height: 30vh; }
         }
     </style>
 </head>
 <body>
-    <!-- 火宫殿氛围背景层 -->
-    <div class="bg-scene"></div>
-    <div class="sparks" id="sparks"></div>
-
     <div class="scroll-container">
         <div class="top-ornament"></div>
 
@@ -270,8 +128,11 @@
                 <a href="index.html" class="active">首页</a>
                 <a href="heritage.html">非遗技艺</a>
                 <a href="tofu.html">臭豆腐工坊</a>
-                <a href="opera.html">庙会戏台</a>
+                <a href="creative.html">AI文创</a>
+                <a href="temple-fair.html">云游庙会</a>
+                <a href="museum.html">数字博物馆</a>
                 <a href="snacks.html">小吃游戏</a>
+                <a href="license.html">授权联名</a>
             </div>
         </nav>
 
@@ -302,8 +163,29 @@
                 <a href="tofu.html" class="heritage-card">
                     <i class="fas fa-fire-burner"></i>
                     <h3>臭豆腐工坊</h3>
-                    <p>百年卤水秘方、五步制作工艺，亲手操作选料、浸卤、油炸、调味全流程。</p>
-                    <span class="card-tag">互动工坊</span>
+                    <p>选料 → 浸卤 → 油炸 → 调味，亲手操作百年技艺，浸泡与油炸需把握时机点击。</p>
+                    <span class="card-tag">分步互动</span>
+                    <span class="card-link">进入页面 →</span>
+                </a>
+                <a href="creative.html" class="heritage-card">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                    <h3>AI文创工坊</h3>
+                    <p>选取火宫殿文化素材，搭配国潮、极简、赛博等风格，AI辅助生成专属数字文创方案。</p>
+                    <span class="card-tag">AI 辅助</span>
+                    <span class="card-link">进入页面 →</span>
+                </a>
+                <a href="temple-fair.html" class="heritage-card">
+                    <i class="fas fa-lantern"></i>
+                    <h3>云游庙会</h3>
+                    <p>点击场景热点，沉浸式探索古戏台、小吃王国、火神庙、花灯长廊等庙会区域。</p>
+                    <span class="card-tag">场景探索</span>
+                    <span class="card-link">进入页面 →</span>
+                </a>
+                <a href="museum.html" class="heritage-card">
+                    <i class="fas fa-landmark"></i>
+                    <h3>数字博物馆</h3>
+                    <p>沿着时间轴穿越 1577 年火神庙始建至今，点击展品查看火宫殿历史与非遗档案。</p>
+                    <span class="card-tag">时间轴</span>
                     <span class="card-link">进入页面 →</span>
                 </a>
                 <a href="opera.html" class="heritage-card">
@@ -315,9 +197,16 @@
                 </a>
                 <a href="snacks.html" class="heritage-card">
                     <i class="fas fa-gamepad"></i>
-                    <h3>小吃接单挑战</h3>
-                    <p>30秒内按顾客订单准确点击小吃，考验手速与记忆力，冲击火宫殿金牌跑堂！</p>
+                    <h3>小吃接单游戏</h3>
+                    <p>火宫殿小吃接单挑战！30秒内按顾客订单准确点击小吃，连击得分，考验手速与记忆。</p>
                     <span class="card-tag">线上小游戏</span>
+                    <span class="card-link">进入页面 →</span>
+                </a>
+                <a href="license.html" class="heritage-card">
+                    <i class="fas fa-handshake"></i>
+                    <h3>授权联名</h3>
+                    <p>火宫殿 × 麦当劳、好伴礼、金湘权等联名案例展示，在线提交品牌合作意向。</p>
+                    <span class="card-tag">品牌合作</span>
                     <span class="card-link">进入页面 →</span>
                 </a>
             </div>
@@ -326,181 +215,9 @@
         <footer class="footer">
             <p><i class="fas fa-fire"></i> 火宫殿 · 中华老字号 · 非遗数字馆 <i class="fas fa-fire"></i></p>
             <p style="margin-top:12px; font-size:0.9rem; opacity:0.7;">地址：长沙市天心区坡子街127号 | 始于1577年</p>
+            <p style="margin-top:10px; font-size:0.85rem; opacity:0.6;">© 火宫殿非遗数字化体验 · 互动设计</p>
         </footer>
         <div class="bottom-ornament"></div>
     </div>
-
-    <!-- ===== 可对话动画小人：庙会小掌柜 ===== -->
-    <div class="mascot-wrap">
-        <div class="mascot-bubble" id="mascotBubble">
-            <button class="mascot-close" onclick="closeBubble()">×</button>
-            <div class="bubble-name">🧑‍🍳 小掌柜</div>
-            <div id="bubbleText">客官您好！我是火宫殿的小掌柜，想了解点什么？</div>
-            <div class="bubble-actions" id="bubbleActions"></div>
-        </div>
-        <div class="mascot-figure" id="mascotFigure" onclick="toggleBubble()">
-            <div class="mascot-hint" id="mascotHint">点我聊天</div>
-            <svg class="body-svg" width="90" height="110" viewBox="0 0 90 110">
-                <!-- 帽子 -->
-                <ellipse cx="45" cy="18" rx="24" ry="8" fill="#4a2c1a"/>
-                <rect x="28" y="8" width="34" height="14" rx="4" fill="#5a3420"/>
-                <rect x="24" y="16" width="42" height="6" rx="3" fill="#3a2416"/>
-                <!-- 脸 -->
-                <circle cx="45" cy="38" r="20" fill="#f5d5b8"/>
-                <!-- 眼睛 -->
-                <circle cx="37" cy="36" r="3.5" fill="#2b1d12"/>
-                <circle cx="53" cy="36" r="3.5" fill="#2b1d12"/>
-                <circle cx="38" cy="35" r="1.2" fill="#fff"/>
-                <circle cx="54" cy="35" r="1.2" fill="#fff"/>
-                <!-- 腮红 -->
-                <circle cx="31" cy="43" r="4" fill="#f0a0a0" opacity="0.5"/>
-                <circle cx="59" cy="43" r="4" fill="#f0a0a0" opacity="0.5"/>
-                <!-- 嘴巴微笑 -->
-                <path d="M40,46 Q45,51 50,46" stroke="#8b5a3a" stroke-width="2" fill="none" stroke-linecap="round"/>
-                <!-- 身体（围裙） -->
-                <rect x="25" y="58" width="40" height="42" rx="12" fill="#7a4a2e"/>
-                <rect x="30" y="62" width="30" height="34" rx="8" fill="#f5e6d3"/>
-                <!-- 围裙带 -->
-                <line x1="30" y1="68" x2="60" y2="68" stroke="#dbbd9c" stroke-width="3"/>
-                <!-- 手臂 -->
-                <rect x="12" y="62" width="14" height="8" rx="4" fill="#f5d5b8"/>
-                <rect x="64" y="62" width="14" height="8" rx="4" fill="#f5d5b8"/>
-                <!-- 手中小旗/铲子 -->
-                <rect x="72" y="40" width="4" height="26" rx="2" fill="#b87c4b" transform="rotate(10,74,53)"/>
-                <circle cx="76" cy="40" r="7" fill="#ffb37a" opacity="0.9"/>
-                <!-- 脚 -->
-                <ellipse cx="35" cy="104" rx="10" ry="5" fill="#3a2416"/>
-                <ellipse cx="55" cy="104" rx="10" ry="5" fill="#3a2416"/>
-            </svg>
-        </div>
-    </div>
-
-    <script>
-        /* ===== 火星粒子生成 ===== */
-        function createSparks() {
-            const container = document.getElementById('sparks');
-            const count = 25;
-            for (let i = 0; i < count; i++) {
-                const spark = document.createElement('div');
-                spark.className = 'spark';
-                spark.style.left = Math.random() * 100 + '%';
-                spark.style.bottom = '-10px';
-                const size = 3 + Math.random() * 5;
-                spark.style.width = size + 'px';
-                spark.style.height = size + 'px';
-                spark.style.animationDuration = (6 + Math.random() * 10) + 's';
-                spark.style.animationDelay = (Math.random() * 12) + 's';
-                spark.style.opacity = 0.3 + Math.random() * 0.5;
-                container.appendChild(spark);
-            }
-        }
-        createSparks();
-
-        /* ===== 可对话动画小人 ===== */
-        const bubble = document.getElementById('mascotBubble');
-        const bubbleText = document.getElementById('bubbleText');
-        const bubbleActions = document.getElementById('bubbleActions');
-        const mascotHint = document.getElementById('mascotHint');
-        let bubbleOpen = false;
-        let dialogIndex = 0;
-
-        // 对话内容库
-        const DIALOGS = [
-            {
-                text: '客官您好！我是火宫殿的小掌柜。您想了解点什么？',
-                actions: [
-                    { label: '🍢 臭豆腐工坊', href: 'tofu.html' },
-                    { label: '🎭 庙会戏台', href: 'opera.html' },
-                    { label: '🎮 小吃游戏', href: 'snacks.html' }
-                ]
-            },
-            {
-                text: '火宫殿的臭豆腐，闻起来臭、吃起来香！卤水要发酵两年以上呢，您可以去工坊亲手试试～',
-                actions: [
-                    { label: '去臭豆腐工坊', href: 'tofu.html' },
-                    { label: '再聊聊', action: 'next' }
-                ]
-            },
-            {
-                text: '庙会的时候，古戏台上湘剧、弹词轮番上演，还有转糖、捏面人的手艺人，热闹得很！',
-                actions: [
-                    { label: '逛逛庙会戏台', href: 'opera.html' },
-                    { label: '再聊聊', action: 'next' }
-                ]
-            },
-            {
-                text: '想当火宫殿的金牌跑堂吗？小吃接单挑战，30秒内按订单点小吃，看看您能拿多少分！',
-                actions: [
-                    { label: '开始挑战', href: 'snacks.html' },
-                    { label: '再聊聊', action: 'next' }
-                ]
-            },
-            {
-                text: '火宫殿从1577年火神庙开始，到现在四百多年了。一殿烟火，汇聚湖湘非遗精粹，您慢慢逛～',
-                actions: [
-                    { label: '看看非遗技艺', href: 'heritage.html' },
-                    { label: '从头聊聊', action: 'reset' }
-                ]
-            }
-        ];
-
-        function renderDialog(index) {
-            const d = DIALOGS[index % DIALOGS.length];
-            bubbleText.textContent = d.text;
-            bubbleActions.innerHTML = '';
-            d.actions.forEach(act => {
-                const btn = document.createElement('button');
-                btn.textContent = act.label;
-                if (act.href) {
-                    btn.onclick = () => { window.location.href = act.href; };
-                } else if (act.action === 'next') {
-                    btn.onclick = () => { dialogIndex++; renderDialog(dialogIndex); };
-                } else if (act.action === 'reset') {
-                    btn.onclick = () => { dialogIndex = 0; renderDialog(0); };
-                }
-                bubbleActions.appendChild(btn);
-            });
-        }
-
-        function toggleBubble() {
-            bubbleOpen = !bubbleOpen;
-            if (bubbleOpen) {
-                bubble.classList.add('show');
-                mascotHint.style.display = 'none';
-                if (bubbleText.textContent.includes('想了解点什么')) {
-                    renderDialog(0);
-                }
-            } else {
-                bubble.classList.remove('show');
-            }
-        }
-
-        function closeBubble() {
-            bubbleOpen = false;
-            bubble.classList.remove('show');
-            mascotHint.style.display = 'block';
-        }
-
-        // 首次加载时，小人自动冒个泡
-        setTimeout(() => {
-            if (!bubbleOpen) {
-                bubbleText.textContent = '客官，进来坐坐？火宫殿的小吃和故事都备好了～';
-                bubbleActions.innerHTML = '';
-                const btn = document.createElement('button');
-                btn.textContent = '好呀，看看';
-                btn.onclick = () => { dialogIndex = 0; renderDialog(0); bubble.classList.add('show'); bubbleOpen = true; mascotHint.style.display = 'none'; };
-                bubbleActions.appendChild(btn);
-                bubble.classList.add('show');
-                bubbleOpen = true;
-                mascotHint.style.display = 'none';
-                // 6秒后自动收起
-                setTimeout(() => {
-                    if (bubbleOpen && bubbleText.textContent.includes('进来坐坐')) {
-                        closeBubble();
-                    }
-                }, 6000);
-            }
-        }, 1500);
-    </script>
 </body>
 </html>
